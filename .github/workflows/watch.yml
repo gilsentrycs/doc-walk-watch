@@ -1,0 +1,43 @@
+name: DOC availability watch
+
+on:
+  schedule:
+    # Every 30 minutes. GitHub often runs scheduled jobs a few minutes late,
+    # which conveniently spreads the load instead of hitting DOC on the dot.
+    - cron: "*/30 * * * *"
+  workflow_dispatch:        # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write           # needed to commit state.json back to the repo
+
+concurrency:
+  group: doc-watch
+  cancel-in-progress: false # never run two checks at once
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check availability
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 doc_watch.py
+
+      - name: Remember what was already reported
+        # always() so state is kept even when a check failed, which is what
+        # stops a flaky run from re-sending an alert you have already had.
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain state.json)" ]; then
+            git config user.name  "doc-watch"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add state.json
+            git commit -m "state: availability changed [skip ci]"
+            git push
+          else
+            echo "No change since last run - nothing to commit."
+          fi
