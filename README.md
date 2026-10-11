@@ -32,11 +32,8 @@ cancel constantly. This checks every 30 minutes so you don't have to.
 
 ### 2. Choose your trips
 
-Copy the example and edit it:
-
-```bash
-cp watch.example.json watch.json
-```
+`watch.json` already contains a working example. Edit it to describe your own
+trips — or start over from scratch with `cp watch.example.json watch.json`.
 
 See **Describing a trip** below. To check it before committing to anything:
 
