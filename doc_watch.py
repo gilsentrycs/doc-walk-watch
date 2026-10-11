@@ -369,6 +369,16 @@ def send_telegram(text: str, dry_run: bool = False) -> bool:
             with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
                 if resp.status == 200:
                     return True
+        except urllib.error.HTTPError as exc:
+            # A wrong token or chat id is 401/400/404 and will never succeed, so
+            # say so at once instead of making the user wait out the backoff.
+            if exc.code in (400, 401, 403, 404):
+                log.error("telegram rejected the request (HTTP %d). "
+                          "Check TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID, and "
+                          "make sure you have sent your bot a message first.",
+                          exc.code)
+                return False
+            log.warning("telegram attempt %d failed: %s", attempt, redact(str(exc)))
         except Exception as exc:  # noqa: BLE001 - must never leak the token
             log.warning("telegram attempt %d failed: %s", attempt, redact(str(exc)))
         time.sleep(2 ** attempt)
