@@ -46,7 +46,8 @@ python3 doc_watch.py --check     # prints a table, sends nothing
 
 ### 3. Put it on GitHub (this is what replaces a server)
 
-1. Create a **private** repository and push these files to it.
+1. Create a repository and push these files to it. Public is fine and gets
+   unlimited free Actions minutes; see the note below.
 2. In the repo go to **Settings → Secrets and variables → Actions → New
    repository secret** and add two secrets:
    * `TELEGRAM_BOT_TOKEN`
@@ -57,8 +58,11 @@ python3 doc_watch.py --check     # prints a table, sends nothing
 That's it. It now checks every 30 minutes, for free, whether or not your
 computer is on.
 
-> **Keep the repo private.** The config is harmless, but a private repo keeps
-> your Actions logs and your travel plans to yourself.
+> **Public or private?** Your Telegram token is safe either way — it lives in
+> Actions secrets, never in the repo, and GitHub masks it in logs. The only
+> difference is that on a public repo anyone can read the run logs, so your
+> trip dates and the huts you're chasing are visible. That's usually fine.
+> Choose private if you'd rather keep your plans to yourself.
 
 ---
 
@@ -214,8 +218,8 @@ the machine is awake.)
 * **GitHub disables scheduled workflows after 60 days of repo inactivity.** It
   emails you first. Pressing **Run workflow** occasionally, or any commit,
   resets the clock.
-* **Actions minutes are free for public repos** and generous for private ones;
-  this uses a few seconds per run.
+* **Actions minutes are unlimited on public repos** and 2,000/month free on
+  private ones. This uses a few seconds per run either way.
 * **DOC's API is undocumented** and could change. If it does, runs fail
   visibly rather than quietly reporting no availability.
 * Be a good citizen: every 30 minutes is plenty. Don't lower it much.
