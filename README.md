@@ -222,6 +222,9 @@ the machine is awake.)
   private ones. This uses a few seconds per run either way.
 * **DOC's API is undocumented** and could change. If it does, runs fail
   visibly rather than quietly reporting no availability.
+* **Until you create `watch.json`** the scheduled run does nothing and reports
+  "Not configured yet" as a warning, rather than failing and emailing you every
+  30 minutes. A `watch.json` that exists but is broken *does* fail loudly.
 * Be a good citizen: every 30 minutes is plenty. Don't lower it much.
 
 ---

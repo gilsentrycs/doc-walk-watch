@@ -419,7 +419,14 @@ def load_config(path: str) -> dict:
         with open(path) as fh:
             cfg = json.load(fh)
     except FileNotFoundError:
-        raise SystemExit(f"No config at {path}. Copy watch.example.json to watch.json.")
+        # "Not set up yet" is not a failure. A freshly cloned repo would
+        # otherwise turn every scheduled run red and mail the owner about it,
+        # so say so clearly and exit cleanly. GitHub shows ::warning:: in the
+        # run summary, so it stays visible rather than silently doing nothing.
+        print(f"::warning::Not configured yet: no {os.path.basename(path)}. "
+              "Copy watch.example.json to watch.json and edit it.")
+        print(f"No config at {path}. Copy watch.example.json to watch.json.")
+        raise SystemExit(0)
     except json.JSONDecodeError as exc:
         raise SystemExit(f"{path} is not valid JSON: {exc}")
 
