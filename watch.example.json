@@ -1,0 +1,59 @@
+{
+  "party_size": 2,
+
+  "_comment": [
+    "Copy this file to watch.json and edit it.",
+    "Each trip is an ordered list of nights. Night 1 is the start date, night 2",
+    "is the next day, and so on. A trip only matches when EVERY night has room",
+    "for party_size people on consecutive days, all inside the window.",
+    "'stay' lists acceptable places for that night - any one of them will do.",
+    "Find exact names with:  python3 doc_watch.py --list-huts \"Kepler Track\"",
+    "Delete trips you do not want. Set \"enabled\": false to pause one."
+  ],
+
+  "trips": [
+    {
+      "name": "Kepler: Luxmore then Iris Burn",
+      "type": "greatwalk",
+      "walk": "Kepler Track",
+      "window": { "start": "2027-02-15", "end": "2027-02-20" },
+      "nights": [
+        { "stay": ["Luxmore Hut"] },
+        { "stay": ["Iris Burn Campsite"] }
+      ]
+    },
+
+    {
+      "name": "Routeburn: 2 nights, hut or campsite",
+      "type": "greatwalk",
+      "walk": "Routeburn Track",
+      "window": { "start": "2027-02-10", "end": "2027-02-20" },
+      "nights": [
+        { "stay": ["Routeburn Flats Hut", "Routeburn Flats Campsite"] },
+        { "stay": ["Lake Mackenzie Hut", "Lake Mackenzie Campsite"] }
+      ]
+    },
+
+    {
+      "name": "Milford: any single night at Clinton Hut",
+      "type": "greatwalk",
+      "walk": "Milford Track",
+      "window": { "start": "2027-02-01", "end": "2027-02-28" },
+      "nights": [
+        { "stay": ["Clinton Hut"] }
+      ]
+    },
+
+    {
+      "name": "Mueller Hut (not a Great Walk)",
+      "type": "facility",
+      "place_id": 747,
+      "facility_id": 2487,
+      "enabled": false,
+      "window": { "start": "2027-02-05", "end": "2027-02-09" },
+      "nights": [
+        { "stay": ["Mueller Hut"] }
+      ]
+    }
+  ]
+}

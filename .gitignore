@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.log
+
+# Never commit Telegram credentials. They belong in GitHub Actions secrets
+# (Settings -> Secrets and variables -> Actions) or your shell environment.
+.env
+
+# state.json is deliberately NOT ignored: the workflow commits it so the
+# watcher remembers what it has already alerted you about between runs.
